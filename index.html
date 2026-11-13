@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Canal en Directo</title>
+    <title>UlisesVeo | En Directo</title>
     <style>
         :root {
             --bg-color: #0e0e10;
@@ -11,6 +11,8 @@
             --text-color: #efeff1;
             --border-color: #26262c;
             --accent-hover: #3f3f46;
+            --kick-color: #53fc18;
+            --twitch-color: #9146ff;
         }
 
         * {
@@ -29,7 +31,6 @@
             overflow: hidden;
         }
 
-        /* Barra superior con título y enlaces rápidos */
         header {
             background-color: var(--panel-bg);
             padding: 10px 20px;
@@ -58,9 +59,45 @@
             box-shadow: 0 0 8px #eb0400;
         }
 
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Botones para alternar Kick / Twitch */
+        .platform-selector {
+            display: flex;
+            background: #2d2d35;
+            border-radius: 6px;
+            padding: 2px;
+        }
+
+        .platform-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .platform-btn.active.kick {
+            background: var(--kick-color);
+            color: #000;
+        }
+
+        .platform-btn.active.twitch {
+            background: var(--twitch-color);
+            color: #fff;
+        }
+
         .social-links {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .social-links a {
@@ -78,7 +115,6 @@
             background: var(--accent-hover);
         }
 
-        /* Contenedor principal: Video a la izquierda, Chat a la derecha */
         .main-container {
             display: flex;
             flex: 1;
@@ -128,11 +164,23 @@
             border: none;
         }
 
-        /* Adaptabilidad para Celulares y Tablets */
         @media (max-width: 900px) {
             body {
-                overflow: auto; /* Permite scroll vertical en móviles */
+                overflow: auto;
                 height: auto;
+            }
+
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .nav-controls {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
             }
 
             .main-container {
@@ -143,7 +191,7 @@
 
             .player-container {
                 width: 100%;
-                height: 56.25vw; /* Mantiene proporción automática 16:9 en pantallas móviles */
+                height: 56.25vw;
                 min-height: 220px;
             }
 
@@ -154,7 +202,7 @@
             .chat-container {
                 width: 100%;
                 max-width: 100%;
-                height: 450px; /* Altura fija cómoda para el chat en celular */
+                height: 450px;
                 border-left: none;
                 border-top: 1px solid var(--border-color);
             }
@@ -166,13 +214,19 @@
     <header>
         <div class="logo-area">
             <span class="live-dot"></span>
-            <span>MI CANAL EN VIVO</span>
+            <span>ULISESVEO EN DIRECTO</span>
         </div>
-        <div class="social-links">
-            <!-- Reemplaza los enlaces con tus redes -->
-            <a href="https://kick.com/TU_USUARIO" target="_blank">Kick</a>
-            <a href="https://twitch.tv/TU_USUARIO" target="_blank">Twitch</a>
-            <a href="https://cafecito.app/TU_USUARIO" target="_blank">Apoyar ☕</a>
+        <div class="nav-controls">
+            <!-- Selector de plataforma -->
+            <div class="platform-selector">
+                <button id="btn-kick" class="platform-btn active kick" onclick="switchPlatform('kick')">Kick</button>
+                <button id="btn-twitch" class="platform-btn twitch" onclick="switchPlatform('twitch')">Twitch</button>
+            </div>
+            <!-- Redes y Apoyo -->
+            <div class="social-links">
+                <a href="https://www.youtube.com/channel/UCkWxfRIZDiAqRM8JL3Z6kng" target="_blank">YouTube</a>
+                <a href="https://patreon.com/UlisesVeo?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink" target="_blank">Patreon 💛</a>
+            </div>
         </div>
     </header>
 
@@ -180,20 +234,35 @@
         <!-- Reproductor de Video -->
         <div class="player-container">
             <div class="video-wrapper">
-                <!-- 💡 Cambia 'TU_USUARIO' por tu nombre de canal en Kick o Twitch -->
-                <iframe src="https://player.kick.com/TU_USUARIO" 
-                        allowfullscreen="true" 
-                        scrolling="no">
-                </iframe>
+                <iframe id="video-player" src="https://player.kick.com/UlisesVeo" allowfullscreen="true" scrolling="no"></iframe>
             </div>
         </div>
 
         <!-- Chat en Vivo -->
         <div class="chat-container">
-            <!-- 💡 Cambia 'TU_USUARIO' por tu canal para mostrar el chat incrustado -->
-            <iframe src="https://kick.com/TU_USUARIO/chatroom"></iframe>
+            <iframe id="chat-iframe" src="https://kick.com/UlisesVeo/chatroom"></iframe>
         </div>
     </div>
 
+    <script>
+        function switchPlatform(platform) {
+            const player = document.getElementById('video-player');
+            const chat = document.getElementById('chat-iframe');
+            const btnKick = document.getElementById('btn-kick');
+            const btnTwitch = document.getElementById('btn-twitch');
+
+            if (platform === 'kick') {
+                player.src = 'https://player.kick.com/UlisesVeo';
+                chat.src = 'https://kick.com/UlisesVeo/chatroom';
+                btnKick.classList.add('active', 'kick');
+                btnTwitch.classList.remove('active', 'twitch');
+            } else {
+                player.src = 'https://player.twitch.tv/?channel=UulisesV&parent=mi-streaming-web.vercel.app';
+                chat.src = 'https://www.twitch.tv/embed/UulisesV/chat?darkpopout=true&parent=mi-streaming-web.vercel.app';
+                btnTwitch.classList.add('active', 'twitch');
+                btnKick.classList.remove('active', 'kick');
+            }
+        }
+    </script>
 </body>
 </html>
