@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Canal en Directo</title>
+    <style>
+        :root {
+            --bg-color: #0e0e10;
+            --panel-bg: #18181b;
+            --text-color: #efeff1;
+            --border-color: #26262c;
+            --accent-hover: #3f3f46;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Barra superior con título y enlaces rápidos */
+        header {
+            background-color: var(--panel-bg);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 55px;
+            flex-shrink: 0;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #eb0400;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #eb0400;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            background: #2d2d35;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Contenedor principal: Video a la izquierda, Chat a la derecha */
+        .main-container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            height: calc(100vh - 55px);
+            overflow: hidden;
+        }
+
+        .player-container {
+            flex: 3;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .chat-container {
+            flex: 1;
+            min-width: 320px;
+            max-width: 400px;
+            background: var(--panel-bg);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Adaptabilidad para Celulares y Tablets */
+        @media (max-width: 900px) {
+            body {
+                overflow: auto; /* Permite scroll vertical en móviles */
+                height: auto;
+            }
+
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+
+            .player-container {
+                width: 100%;
+                height: 56.25vw; /* Mantiene proporción automática 16:9 en pantallas móviles */
+                min-height: 220px;
+            }
+
+            .video-wrapper {
+                height: 100%;
+            }
+
+            .chat-container {
+                width: 100%;
+                max-width: 100%;
+                height: 450px; /* Altura fija cómoda para el chat en celular */
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <span class="live-dot"></span>
+            <span>MI CANAL EN VIVO</span>
+        </div>
+        <div class="social-links">
+            <!-- Reemplaza los enlaces con tus redes -->
+            <a href="https://kick.com/TU_USUARIO" target="_blank">Kick</a>
+            <a href="https://twitch.tv/TU_USUARIO" target="_blank">Twitch</a>
+            <a href="https://cafecito.app/TU_USUARIO" target="_blank">Apoyar ☕</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Reproductor de Video -->
+        <div class="player-container">
+            <div class="video-wrapper">
+                <!-- 💡 Cambia 'TU_USUARIO' por tu nombre de canal en Kick o Twitch -->
+                <iframe src="https://player.kick.com/TU_USUARIO" 
+                        allowfullscreen="true" 
+                        scrolling="no">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Chat en Vivo -->
+        <div class="chat-container">
+            <!-- 💡 Cambia 'TU_USUARIO' por tu canal para mostrar el chat incrustado -->
+            <iframe src="https://kick.com/TU_USUARIO/chatroom"></iframe>
+        </div>
+    </div>
+
+</body>
+</html>
